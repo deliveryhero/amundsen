@@ -1,30 +1,51 @@
-## 2.6.0
-
 ### Feature
-* Search service adding suport for AWS Elasticsearch (https://github.com/amundsen-io/amundsen/pull/1141)
-* use chart_names in dashboard basic search (https://github.com/amundsen-io/amundsen/pull/1140)
-* Atlas Dashboard Support (https://github.com/amundsen-io/amundsen/pull/1066)
-
+* Add bigquery column mode when consuming bigquery metadata ([#1491](https://github.com/deliveryhero/amundsen/issues/1491)) ([`6fc4599`](https://github.com/deliveryhero/amundsen/commit/6fc4599fc0a7a022ff8bb590fa1ba5dad66f3082))
+* Support popular_resources() in mysql_proxy ([#1488](https://github.com/deliveryhero/amundsen/issues/1488)) ([`e491c1f`](https://github.com/deliveryhero/amundsen/commit/e491c1f71e8dc85c24dcb6a3f2f11579ce2bcd7b))
+* Modifying the create issue action to send a link to the table from which the issue was created ([#1485](https://github.com/deliveryhero/amundsen/issues/1485)) ([`9e508ab`](https://github.com/deliveryhero/amundsen/commit/9e508ab02b9f0a3e4ae62ed06fc03fc7c35ea2fb))
+* Adding ability to include conditions along with node and relation types in the neo4j staleness removal task ([#1464](https://github.com/deliveryhero/amundsen/issues/1464)) ([`1b25881`](https://github.com/deliveryhero/amundsen/commit/1b2588158bf2a568441a2a3cbf8b9735de4d3079))
+* OpenLineage extractor for databuilder ([#1444](https://github.com/deliveryhero/amundsen/issues/1444)) ([`b42fb4a`](https://github.com/deliveryhero/amundsen/commit/b42fb4a72379e6b346ad69a8454489c45ed9fafe))
+* Add generic data quality checks ([#1073](https://github.com/deliveryhero/amundsen/issues/1073)) ([`22dcca5`](https://github.com/deliveryhero/amundsen/commit/22dcca55d1348de677c33de5af5b62528e4cf2b6))
+* Added custom icons file ([#1446](https://github.com/deliveryhero/amundsen/issues/1446)) ([`6afff14`](https://github.com/deliveryhero/amundsen/commit/6afff143a72d43dfce2a4cdef97e624bc60fd745))
+* Generalize application model (+ add databricks application support) ([#1398](https://github.com/deliveryhero/amundsen/issues/1398)) ([`1a75a2f`](https://github.com/deliveryhero/amundsen/commit/1a75a2f16648e73698b8b6b21641ed8d2e4c5c0e))
+* More general notices ([#1408](https://github.com/deliveryhero/amundsen/issues/1408)) ([`c4c908d`](https://github.com/deliveryhero/amundsen/commit/c4c908df7a14e72058932f4d597656df5a926f48))
+* Atlas databuilder compatibility ([#1225](https://github.com/deliveryhero/amundsen/issues/1225)) ([`e0c6bbb`](https://github.com/deliveryhero/amundsen/commit/e0c6bbba06ab5fe2b4c237495c1da7593dee0ec6))
+* Add Oracle extractor loader to Amundsen ([#1357](https://github.com/deliveryhero/amundsen/issues/1357)) ([`78047b2`](https://github.com/deliveryhero/amundsen/commit/78047b22e3eaf588c9de9e2f9541bba9c03409ef))
+* Healthier health checks ([#1355](https://github.com/deliveryhero/amundsen/issues/1355)) ([`5468b80`](https://github.com/deliveryhero/amundsen/commit/5468b80da6a650e0359a8992cbd8c0453e8866b0))
+* Adding regional endpoint url for NeptunePublisher ([#1375](https://github.com/deliveryhero/amundsen/issues/1375)) ([`22f9311`](https://github.com/deliveryhero/amundsen/commit/22f9311de1a887684198bc284d292c260db6dc6a))
+* Update feature tags in search on user action ([#1342](https://github.com/deliveryhero/amundsen/issues/1342)) ([`c4e3296`](https://github.com/deliveryhero/amundsen/commit/c4e3296c1059d4b2b97d0d40eabc157428c3835a))
+* Add Salesforce extractor ([#1370](https://github.com/deliveryhero/amundsen/issues/1370)) ([`15d1e83`](https://github.com/deliveryhero/amundsen/commit/15d1e83e25a760ca8c0cfd55b112e9fe16172696))
+* Blanket uneditable schema option ([#1353](https://github.com/deliveryhero/amundsen/issues/1353)) ([`7bd434b`](https://github.com/deliveryhero/amundsen/commit/7bd434bf798fff029f69ac135ce16229f1cce448))
+* Common models to support better health checks ([#1359](https://github.com/deliveryhero/amundsen/issues/1359)) ([`4f98d38`](https://github.com/deliveryhero/amundsen/commit/4f98d3884854a368e4634856007da5c82019555c))
+* Support complex & nested column extraction for delta ([#1329](https://github.com/deliveryhero/amundsen/issues/1329)) ([`9db18bc`](https://github.com/deliveryhero/amundsen/commit/9db18bc080aaa79bb45e73f5fe3805c73c0f780c))
+* Add logging for total extracted records ([#1347](https://github.com/deliveryhero/amundsen/issues/1347)) ([`141fd21`](https://github.com/deliveryhero/amundsen/commit/141fd210510695f6162ef58cdce26ddb0b2d1dc3))
+* Add complex delta type rendering on frontend ([#1326](https://github.com/deliveryhero/amundsen/issues/1326)) ([`022f697`](https://github.com/deliveryhero/amundsen/commit/022f697d78257b7a754b6d54e495da9f63821971))
+* Allow counting reads from different GCP project id as config in bigquery_usage_extactor ([#1328](https://github.com/deliveryhero/amundsen/issues/1328)) ([`fac7bf5`](https://github.com/deliveryhero/amundsen/commit/fac7bf5b6b42162d00fb4c4291b437448f45364f))
+* Making notices more general (real) ([#1280](https://github.com/deliveryhero/amundsen/issues/1280)) ([`242748d`](https://github.com/deliveryhero/amundsen/commit/242748dae8097a19b5e57aa8f7d4e597d926b8bf))
 
 ### Fix
-* remove a comment in the Search Service user model get_id function that conflicts with implementation (https://github.com/amundsen-io/amundsen/pull/1154)
-* search_table API swagger file bug fix (https://github.com/amundsen-io/amundsen/pull/1120)
-* aws config (https://github.com/amundsen-io/amundsen/pull/1167)
-
-### Chore
-* bump marshmallow to 3 (https://github.com/amundsen-io/amundsensearchlibrary/pull/192)
-* refactor: shared dependencies unification (https://github.com/amundsen-io/amundsen/pull/1163)
-
-# 2.5.1 and before
-
-### Feature
-* Add dashboard search filter support ([#112](https://github.com/amundsen-io/amundsensearchlibrary/issues/112)) ([`17c6739`](https://github.com/amundsen-io/amundsensearchlibrary/commit/17c673903e2db3b1145af69fb31659d7be185eb4))
-* Use query parameter for basic search [AtlasProxy] ([#105](https://github.com/amundsen-io/amundsensearchlibrary/issues/105)) ([`9961fde`](https://github.com/amundsen-io/amundsensearchlibrary/commit/9961fdef30f5bcd467f05df65d4ac7f40130ef1e))
-
-### Fix
-* Add id field to Dashboard ([#174](https://github.com/amundsen-io/amundsensearchlibrary/issues/174)) ([`53634fa`](https://github.com/amundsen-io/amundsensearchlibrary/commit/53634fa355bee468341d391b2fd5291b4991fc38))
-* Fix table post/put api bug ([#172](https://github.com/amundsen-io/amundsensearchlibrary/issues/172)) ([`38bccba`](https://github.com/amundsen-io/amundsensearchlibrary/commit/38bccba0dab00941aec9ae187c31a4251b586003))
-* Fix dashboard model errors, change deprecated pytest function ([#160](https://github.com/amundsen-io/amundsensearchlibrary/issues/160)) ([`1304234`](https://github.com/amundsen-io/amundsensearchlibrary/commit/1304234d5f7bf2fb238ae9c0011d3265efa99ab7))
+* Reset tabs after loading a new table page ([#1463](https://github.com/deliveryhero/amundsen/issues/1463)) ([`0f3695b`](https://github.com/deliveryhero/amundsen/commit/0f3695bab716f5de1e4be62641cdbb6ec16e6f06))
+* Neo4j service name mismatch ([#1460](https://github.com/deliveryhero/amundsen/issues/1460)) ([`4a023d6`](https://github.com/deliveryhero/amundsen/commit/4a023d6ffd79c4d074fa5265aacfd6ce09d26989))
+* Application model backwards compatibility ([#1456](https://github.com/deliveryhero/amundsen/issues/1456)) ([`a0f6efa`](https://github.com/deliveryhero/amundsen/commit/a0f6efafaabae6c5bb43250c2e10eec8f07f8edc))
+* Apache Superset extractors pagination ([#1436](https://github.com/deliveryhero/amundsen/issues/1436)) ([`dacf296`](https://github.com/deliveryhero/amundsen/commit/dacf29672b5d46bc07fc405ea08cbf0d7e86c111))
+* Removing hardcoded K8s Cluster Domain ([#1435](https://github.com/deliveryhero/amundsen/issues/1435)) ([`3297b05`](https://github.com/deliveryhero/amundsen/commit/3297b055f5c8de9221d7496234bcb19832c0cf25))
+* Unpacking AtlasEntity named tuple in the wrong order ([#1429](https://github.com/deliveryhero/amundsen/issues/1429)) ([`fee01ab`](https://github.com/deliveryhero/amundsen/commit/fee01ab7aabf074c90e8be5fee1ddf10e8935040))
+* Change back FE healthcheck ([#1421](https://github.com/deliveryhero/amundsen/issues/1421)) ([`99fc6d1`](https://github.com/deliveryhero/amundsen/commit/99fc6d1bf6125d6bfb99397085ffdf1dbffbfe00))
+* Make bigquery usage extractor handle missing datasetId in log entry ([#1415](https://github.com/deliveryhero/amundsen/issues/1415)) ([`3340010`](https://github.com/deliveryhero/amundsen/commit/33400103e6d0dfd5087cd3b709adf54b83455bb2))
+* Added version to feature name ([#1390](https://github.com/deliveryhero/amundsen/issues/1390)) ([`ce4c3d4`](https://github.com/deliveryhero/amundsen/commit/ce4c3d43ea141cc2cef60c5f06173c269362454e))
+* Return empty list from exceptions in fetch_columns on deltalake extractor ([#1389](https://github.com/deliveryhero/amundsen/issues/1389)) ([`50e8bc3`](https://github.com/deliveryhero/amundsen/commit/50e8bc37251bd27d9bde0b969308015e5a43bacd))
+* Deployment-frontend env nested & quote issue ([#1391](https://github.com/deliveryhero/amundsen/issues/1391)) ([`ec25c3c`](https://github.com/deliveryhero/amundsen/commit/ec25c3c9b32f97485b5d7e50818ec604383b81a0))
+* Nested delta edge case ([#1373](https://github.com/deliveryhero/amundsen/issues/1373)) ([`4e2e1a5`](https://github.com/deliveryhero/amundsen/commit/4e2e1a59c8fc2c3ddccaae7984a5bae5f7816023))
+* Metadata oidc image build ([#1346](https://github.com/deliveryhero/amundsen/issues/1346)) ([`9d153f4`](https://github.com/deliveryhero/amundsen/commit/9d153f4ad0d4bfba789345c045f6ba9a3151a053))
+* Add Feast Serving URL to Feast Extractor ([#1330](https://github.com/deliveryhero/amundsen/issues/1330)) ([`c96a4ba`](https://github.com/deliveryhero/amundsen/commit/c96a4bac78a58a7aae12ee1ba2a6b3faff20ce49))
+* Update setup.py frontend-oidc ([#1332](https://github.com/deliveryhero/amundsen/issues/1332)) ([`b71c541`](https://github.com/deliveryhero/amundsen/commit/b71c5414b39b13094cca120e65e6414062e002b6))
+* Atlas lineage multiple parents ([#1293](https://github.com/deliveryhero/amundsen/issues/1293)) ([`b91ce7a`](https://github.com/deliveryhero/amundsen/commit/b91ce7ab288c980e9083d3e801a453a00d83dac1))
+* Aws session token that is required for neptune to be called ([#1312](https://github.com/deliveryhero/amundsen/issues/1312)) ([`773452f`](https://github.com/deliveryhero/amundsen/commit/773452feb8d95face212a39ec34efa328a2a01c6))
+* Allow correct behaviour on action log errors. ([#1320](https://github.com/deliveryhero/amundsen/issues/1320)) ([`a9583cd`](https://github.com/deliveryhero/amundsen/commit/a9583cdde25c8c0bec812dc7392a4da1f2d1d3a6))
 
 ### Documentation
-* Fix build and coverage status links in README.md ([#134](https://github.com/amundsen-io/amundsensearchlibrary/issues/134)) ([`1c95ff4`](https://github.com/amundsen-io/amundsensearchlibrary/commit/1c95ff4362dac5d3674c735244855186cf7fa744))
+* Improve the documentation of Databuilder ([#1476](https://github.com/deliveryhero/amundsen/issues/1476)) ([`45d96dd`](https://github.com/deliveryhero/amundsen/commit/45d96dd8cfa0a92c06b0b84b791150a5603dbeee))
+* Add a blog from convoy ([#1475](https://github.com/deliveryhero/amundsen/issues/1475)) ([`c9e1a12`](https://github.com/deliveryhero/amundsen/commit/c9e1a12d995dd91423fb3c83cc734f67537ac94b))
+* Add minimum usage to docs ([#1452](https://github.com/deliveryhero/amundsen/issues/1452)) ([`a035d6d`](https://github.com/deliveryhero/amundsen/commit/a035d6d8142e77cb5290b777568ced66ec3236b6))
+* Update readme with contributor graph ([#1331](https://github.com/deliveryhero/amundsen/issues/1331)) ([`c0d7b3f`](https://github.com/deliveryhero/amundsen/commit/c0d7b3f3ba09da96d8e4694207d15cb60a0c5ba5))
+* Update Notice file ([#1324](https://github.com/deliveryhero/amundsen/issues/1324)) ([`f3ad0a4`](https://github.com/deliveryhero/amundsen/commit/f3ad0a47c049cb02f1f093f17de2a86cc2dda57e))
+* Add troubleshooting notes for neo4j container ([#1128](https://github.com/deliveryhero/amundsen/issues/1128)) ([`f922c10`](https://github.com/deliveryhero/amundsen/commit/f922c10e1deb87d0d7c3a6e2c296f6ad468ae5c1))
