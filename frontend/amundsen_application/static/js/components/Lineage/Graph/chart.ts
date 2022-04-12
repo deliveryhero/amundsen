@@ -16,6 +16,8 @@ import {
   NODE_STATUS_Y_OFFSET,
   NODE_LABEL_Y_OFFSET,
   UPSTREAM_LABEL_OFFSET,
+  CUSTOM_NODE_SIZE_HEIGHT,
+  CUSTOM_NODE_SIZE_WIDTH
 } from './constants';
 import { Coordinates, Dimensions, Labels, TreeLineageNode } from './types';
 
@@ -234,7 +236,7 @@ export const decompactLineage = (nodes): TreeLineageNode[] => {
 
       // Insert nodes while keeping reference to original one
       parents.forEach((p, idx: number) => {
-        const id = generateNodeId(n.id, idx);
+        const id = generateNodeId(n.id, idx); 
 
         // Attach to children if missing from response.
         if (!p._children) {
@@ -487,8 +489,8 @@ const lc = (): LineageChart => {
       dimensions.height,
       (dimensions.width -
         (LINEAGE_SCENE_MARGIN.left + LINEAGE_SCENE_MARGIN.right)) /
-        2,
-    ]);
+      2,
+    ]).nodeSize([CUSTOM_NODE_SIZE_HEIGHT, CUSTOM_NODE_SIZE_WIDTH]);
 
     const upstreamTree = buildTree(
       treemap,
