@@ -17,7 +17,7 @@ import {
   NODE_LABEL_Y_OFFSET,
   UPSTREAM_LABEL_OFFSET,
   CUSTOM_NODE_SIZE_HEIGHT,
-  CUSTOM_NODE_SIZE_WIDTH
+  CUSTOM_NODE_SIZE_WIDTH,
 } from './constants';
 import { Coordinates, Dimensions, Labels, TreeLineageNode } from './types';
 
@@ -236,8 +236,7 @@ export const decompactLineage = (nodes): TreeLineageNode[] => {
 
       // Insert nodes while keeping reference to original one
       parents.forEach((p, idx: number) => {
-        const id = generateNodeId(n.id, idx); 
-
+        const id = generateNodeId(n.id, idx);
         // Attach to children if missing from response.
         if (!p._children) {
           if (!Array.isArray(p.children)) {
@@ -462,8 +461,8 @@ export const buildSVG = (el: HTMLElement, dimensions: Dimensions) => {
   const svg = select(el)
     .append('svg')
     .classed('svg-content', true)
-    .attr('width', dimensions.width)
-    .attr('height', dimensions.height);
+    .attr('viewBox', `0 0 ${dimensions.width} ${dimensions.height}`)
+    .attr('preserveAspectRatio', 'xMinYMin meet');
 
   const g = svg
     .append('g')
@@ -485,12 +484,14 @@ const lc = (): LineageChart => {
       .parentId(({ parent }) => parent);
 
     // Create the treemaps only once per graph and then internally maintain them.
-    const treemap = d3Tree().size([
-      dimensions.height,
-      (dimensions.width -
-        (LINEAGE_SCENE_MARGIN.left + LINEAGE_SCENE_MARGIN.right)) /
-      2,
-    ]).nodeSize([CUSTOM_NODE_SIZE_HEIGHT, CUSTOM_NODE_SIZE_WIDTH]);
+    const treemap = d3Tree()
+      .size([
+        dimensions.height,
+        (dimensions.width -
+          (LINEAGE_SCENE_MARGIN.left + LINEAGE_SCENE_MARGIN.right)) /
+          2,
+      ])
+      .nodeSize([CUSTOM_NODE_SIZE_HEIGHT, CUSTOM_NODE_SIZE_WIDTH]);
 
     const upstreamTree = buildTree(
       treemap,
