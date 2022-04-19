@@ -252,7 +252,28 @@ export const compactLineage = (
  */
 export const decompactLineage = (nodes): TreeLineageNode[] => {
   const uniqueIds: number[] = [];
+
+  const depthMaxLabelLengthMapping = nodes.reduce(
+    (obj, item) => ({
+      ...obj,
+      [item.depth]: 0,
+    }),
+    { 0: 0 }
+  );
+  nodes.forEach((d, idx) => {
+    const nodeLabel = getNodeLabel(d, idx);
+    const currentNodeWidth = nodeLabel.length * 2;
+    if (currentNodeWidth > depthMaxLabelLengthMapping[d.depth]) {
+      depthMaxLabelLengthMapping[d.depth] = currentNodeWidth;
+    }
+  });
   return nodes.reduce((acc, n) => {
+    n.y =
+      n.y < 0
+        ? depthMaxLabelLengthMapping[n.depth - 1] -
+          depthMaxLabelLengthMapping[n.depth]
+        : depthMaxLabelLengthMapping[n.depth - 1] +
+          depthMaxLabelLengthMapping[n.depth];
     if (n.data.data._parents && n.data.data._parents.length > 1) {
       const parents = nodes.filter((p: TreeLineageNode) =>
         n.data.data._parents.includes(p.data.data.key)
@@ -345,31 +366,6 @@ export const buildNodes = (g, targetNode, nodes, onClick) => {
     .selectAll('g.graph-node')
     // eslint-disable-next-line no-return-assign
     .data(nodes, ({ id }) => id);
-
-  const depthMaxLabelLengthMapping = nodes.reduce(
-    (obj, item) => ({
-      ...obj,
-      [item.depth]: 0,
-    }),
-    { 0: 0 }
-  );
-  nodes.forEach((d, idx) => {
-    const nodeLabel = getNodeLabel(d, idx);
-    const currentNodeWidth = nodeLabel.length * 2;
-    if (currentNodeWidth > depthMaxLabelLengthMapping[d.depth]) {
-      depthMaxLabelLengthMapping[d.depth] = currentNodeWidth;
-    }
-  });
-
-  nodes.forEach((d) => ({
-    ...d,
-    y:
-      d.y < 0
-        ? depthMaxLabelLengthMapping[d.depth - 1] -
-          depthMaxLabelLengthMapping[d.depth]
-        : depthMaxLabelLengthMapping[d.depth - 1] +
-          depthMaxLabelLengthMapping[d.depth],
-  }));
 
   // Toggle children on click.
   // Enter any new modes at the parent's previous position.
