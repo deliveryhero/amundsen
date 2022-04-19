@@ -17,7 +17,6 @@ import {
   NODE_LABEL_X_OFFSET,
   NODE_LABEL_Y_OFFSET,
   UPSTREAM_LABEL_OFFSET,
-  NODE_WIDTH,
 } from './constants';
 import { Coordinates, Dimensions, Labels, TreeLineageNode } from './types';
 
@@ -92,20 +91,19 @@ const getLabelYOffset = (d) =>
  */
 const getNodeWidth = (n, depthMaxLabelLengthMapping) => {
   const { depth, y } = n;
+  const sumOfWidths = Object.entries(depthMaxLabelLengthMapping)
+    .filter((entries) => entries[0] !== '0' && entries[0] <= depth)
+    .reduce((sum, entries) => sum + entries[1], 0);
   if (y < 0) {
     if (depth === 1) {
       return -depthMaxLabelLengthMapping[depth];
     }
-    return (
-      -depthMaxLabelLengthMapping[depth - 1] - depthMaxLabelLengthMapping[depth]
-    );
+    return -sumOfWidths - depthMaxLabelLengthMapping[depth];
   }
   if (depth === 1) {
     return depthMaxLabelLengthMapping[depth];
   }
-  return (
-    depthMaxLabelLengthMapping[depth - 1] + depthMaxLabelLengthMapping[depth]
-  );
+  return sumOfWidths + depthMaxLabelLengthMapping[depth];
 };
 
 /**
