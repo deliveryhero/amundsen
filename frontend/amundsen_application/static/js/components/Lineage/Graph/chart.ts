@@ -267,7 +267,7 @@ export const decompactLineage = (nodes): TreeLineageNode[] => {
       depthMaxLabelLengthMapping[d.depth] = currentNodeWidth;
     }
   });
-  console.log(`depthMaxLabelLengthMapping: ${depthMaxLabelLengthMapping}`);
+  console.log('depthMaxLabelLengthMapping: ', depthMaxLabelLengthMapping);
   return nodes.reduce((acc, n) => {
     n.y =
       n.y < 0
@@ -374,7 +374,11 @@ export const buildNodes = (g, targetNode, nodes, onClick) => {
     .enter()
     .append('g')
     .attr('class', 'graph-node')
-    .attr('transform', () => `translate(${targetNode.y0},${targetNode.x0})`)
+    .attr('transform', (d) =>
+      d.parent === null
+        ? `translate(${targetNode.y0},${targetNode.x0}`
+        : `translate(${d.parent.y},${d.parent.x})`
+    )
     .on('click', (_, clicked) => onClick(clicked, nodes));
 
   // Draw circle around the nodes
@@ -407,7 +411,7 @@ export const buildNodes = (g, targetNode, nodes, onClick) => {
         d.y = targetNode.y0;
         d.x = targetNode.x0;
       }
-      return 'translate(' + d.parent.y + ',' + d.parent.x + ')';
+      return 'translate(' + d.y + ',' + d.x + ')';
     });
 
   // Update the node attributes and style
