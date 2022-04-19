@@ -330,8 +330,8 @@ export const buildEdges = (g, targetNode, nodes) => {
     .exit()
     .transition()
     .duration(ANIMATION_DURATION)
-    .attr('d', () => {
-      const o = { x: targetNode.x, y: targetNode.y };
+    .attr('d', (d) => {
+      const o = { x: d.parent.x, y: d.parent.y };
       return generatePath(o, o);
     })
     .remove();
