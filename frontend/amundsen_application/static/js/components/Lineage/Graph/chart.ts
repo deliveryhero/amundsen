@@ -271,7 +271,7 @@ export const decompactLineage = (nodes): TreeLineageNode[] => {
   return nodes.reduce((acc, n) => {
     n.y =
       n.y < 0
-        ? depthMaxLabelLengthMapping[n.depth - 1] -
+        ? -depthMaxLabelLengthMapping[n.depth - 1] -
           depthMaxLabelLengthMapping[n.depth]
         : depthMaxLabelLengthMapping[n.depth - 1] +
           depthMaxLabelLengthMapping[n.depth];
