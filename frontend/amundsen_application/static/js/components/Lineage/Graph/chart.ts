@@ -89,21 +89,24 @@ const getLabelYOffset = (d) =>
 /**
  * Returns the node width based on label length.
  */
-const getNodeWidth = (n, depthMaxLabelLengthMapping) => {
+// eslint-disable-next-line id-blacklist
+const getNodeWidth = (n, depthMaxLabelLengthMapping: { number: number }) => {
   const { depth, y } = n;
-  const sumOfWidths = Object.entries(depthMaxLabelLengthMapping)
-    .filter((entries) => entries[0] !== '0' && entries[0] <= depth)
+  const sumOfWidths: number = Object.entries(depthMaxLabelLengthMapping)
+    .filter(
+      (entries) => entries[0] !== '0' && parseInt(entries[0], 10) <= depth
+    )
     .reduce((sum, entries) => sum + entries[1], 0);
   if (y < 0) {
     if (depth === 1) {
       return -depthMaxLabelLengthMapping[depth];
     }
-    return -sumOfWidths - depthMaxLabelLengthMapping[depth];
+    return -sumOfWidths;
   }
   if (depth === 1) {
     return depthMaxLabelLengthMapping[depth];
   }
-  return sumOfWidths + depthMaxLabelLengthMapping[depth];
+  return sumOfWidths;
 };
 
 /**
