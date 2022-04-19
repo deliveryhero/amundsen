@@ -88,6 +88,27 @@ const getLabelYOffset = (d) =>
   d.parent === null ? NODE_LABEL_Y_OFFSET : NODE_STATUS_Y_OFFSET;
 
 /**
+ * Returns the node width based on label length.
+ */
+const getNodeWidth = (n, depthMaxLabelLengthMapping) => {
+  const { depth, y } = n;
+  if (y < 0) {
+    if (depth === 1) {
+      return -depthMaxLabelLengthMapping[depth];
+    }
+    return (
+      -depthMaxLabelLengthMapping[depth - 1] - depthMaxLabelLengthMapping[depth]
+    );
+  }
+  if (depth === 1) {
+    return depthMaxLabelLengthMapping[depth];
+  }
+  return (
+    depthMaxLabelLengthMapping[depth - 1] + depthMaxLabelLengthMapping[depth]
+  );
+};
+
+/**
  * Returns the text-anchor for the node labels.
  */
 const getTextAnchor = (d) => {
@@ -262,19 +283,14 @@ export const decompactLineage = (nodes): TreeLineageNode[] => {
   );
   nodes.forEach((d, idx) => {
     const nodeLabel = getNodeLabel(d, idx);
-    const currentNodeWidth = nodeLabel.length * 2;
+    const currentNodeWidth = nodeLabel.length * 5 + NODE_RADIUS;
     if (currentNodeWidth > depthMaxLabelLengthMapping[d.depth]) {
       depthMaxLabelLengthMapping[d.depth] = currentNodeWidth;
     }
   });
   console.log('depthMaxLabelLengthMapping: ', depthMaxLabelLengthMapping);
   return nodes.reduce((acc, n) => {
-    n.y =
-      n.y < 0
-        ? -depthMaxLabelLengthMapping[n.depth - 1] -
-          depthMaxLabelLengthMapping[n.depth]
-        : depthMaxLabelLengthMapping[n.depth - 1] +
-          depthMaxLabelLengthMapping[n.depth];
+    n.y = getNodeWidth(n, depthMaxLabelLengthMapping);
     if (n.data.data._parents && n.data.data._parents.length > 1) {
       const parents = nodes.filter((p: TreeLineageNode) =>
         n.data.data._parents.includes(p.data.data.key)
