@@ -253,8 +253,6 @@ export const compactLineage = (
 export const decompactLineage = (nodes): TreeLineageNode[] => {
   const uniqueIds: number[] = [];
   return nodes.reduce((acc, n) => {
-    // Normalize nodes for fixed depth.
-    n.y = n.y < 0 ? n.depth * -NODE_WIDTH : n.depth * NODE_WIDTH;
     if (n.data.data._parents && n.data.data._parents.length > 1) {
       const parents = nodes.filter((p: TreeLineageNode) =>
         n.data.data._parents.includes(p.data.data.key)
@@ -348,6 +346,31 @@ export const buildNodes = (g, targetNode, nodes, onClick) => {
     // eslint-disable-next-line no-return-assign
     .data(nodes, ({ id }) => id);
 
+  const depthMaxLabelLengthMapping = nodes.reduce(
+    (obj, item) => ({
+      ...obj,
+      [item.depth]: 0,
+    }),
+    { 0: 0 }
+  );
+  nodes.forEach((d, idx) => {
+    const nodeLabel = getNodeLabel(d, idx);
+    const currentNodeWidth = nodeLabel.length * 2;
+    if (currentNodeWidth > depthMaxLabelLengthMapping[d.depth]) {
+      depthMaxLabelLengthMapping[d.depth] = currentNodeWidth;
+    }
+  });
+
+  nodes.forEach((d) => ({
+    ...d,
+    y:
+      d.y < 0
+        ? depthMaxLabelLengthMapping[d.depth - 1] -
+          depthMaxLabelLengthMapping[d.depth]
+        : depthMaxLabelLengthMapping[d.depth - 1] +
+          depthMaxLabelLengthMapping[d.depth],
+  }));
+
   // Toggle children on click.
   // Enter any new modes at the parent's previous position.
   const nodeEnter = nodeSelection
@@ -411,7 +434,7 @@ export const buildNodes = (g, targetNode, nodes, onClick) => {
     .exit()
     .transition()
     .duration(ANIMATION_DURATION)
-    .attr('transform', () => `translate(${targetNode.y},${targetNode.x})`)
+    .attr('transform', (d) => `translate(${d.parent.y},${d.parent.x})`)
     .remove();
 
   // On exit reduce the node circles size to 0
