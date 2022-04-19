@@ -284,7 +284,7 @@ export const decompactLineage = (nodes): TreeLineageNode[] => {
   );
   nodes.forEach((d, idx) => {
     const nodeLabel = getNodeLabel(d, idx);
-    const currentNodeWidth = nodeLabel.length * 5 + NODE_RADIUS;
+    const currentNodeWidth = nodeLabel.length * 10 + NODE_RADIUS;
     if (currentNodeWidth > depthMaxLabelLengthMapping[d.depth]) {
       depthMaxLabelLengthMapping[d.depth] = currentNodeWidth;
     }
@@ -351,8 +351,11 @@ export const buildEdges = (g, targetNode, nodes) => {
     .enter()
     .insert('path', 'g')
     .attr('class', 'graph-link')
-    .attr('d', () => {
-      const o = { x: targetNode.x0 || 0, y: targetNode.y0 || 0 };
+    .attr('d', (d) => {
+      const o =
+        d.parent === null
+          ? { x: targetNode.x0 || 0, y: targetNode.y0 || 0 }
+          : { x: d.parent.x, y: d.parent.y };
       return generatePath(o, o);
     });
 
