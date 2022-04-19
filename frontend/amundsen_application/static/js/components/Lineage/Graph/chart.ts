@@ -267,6 +267,7 @@ export const decompactLineage = (nodes): TreeLineageNode[] => {
       depthMaxLabelLengthMapping[d.depth] = currentNodeWidth;
     }
   });
+  console.log(`depthMaxLabelLengthMapping: ${depthMaxLabelLengthMapping}`);
   return nodes.reduce((acc, n) => {
     n.y =
       n.y < 0
@@ -406,7 +407,7 @@ export const buildNodes = (g, targetNode, nodes, onClick) => {
         d.y = targetNode.y0;
         d.x = targetNode.x0;
       }
-      return 'translate(' + d.y + ',' + d.x + ')';
+      return 'translate(' + d.parent.y + ',' + d.parent.x + ')';
     });
 
   // Update the node attributes and style
