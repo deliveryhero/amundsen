@@ -90,17 +90,17 @@ const getLabelYOffset = (d) =>
  * Returns the node width based on label length.
  */
 // eslint-disable-next-line id-blacklist
-const getNodeWidth = (n, depthMaxLabelLengthMapping: { number: number }) => {
+const getNodeWidth = (n, depthMaxNodeWidthMapping: { number: number }) => {
   const { depth, y } = n;
-  const sumOfWidths: number = Object.entries(depthMaxLabelLengthMapping)
+  const widthSum: number = Object.entries(depthMaxNodeWidthMapping)
     .filter(
       (entries) => entries[0] !== '0' && parseInt(entries[0], 10) <= depth
     )
     .reduce((sum, entries) => sum + entries[1], 0);
   if (y < 0) {
-    return -sumOfWidths;
+    return -widthSum;
   }
-  return sumOfWidths;
+  return widthSum;
 };
 
 /**
@@ -269,7 +269,7 @@ export const compactLineage = (
 export const decompactLineage = (nodes): TreeLineageNode[] => {
   const uniqueIds: number[] = [];
 
-  const depthMaxLabelLengthMapping = nodes.reduce(
+  const depthMaxNodeWidthMapping = nodes.reduce(
     (obj, item) => ({
       ...obj,
       [item.depth]: 0,
@@ -278,13 +278,14 @@ export const decompactLineage = (nodes): TreeLineageNode[] => {
   );
   nodes.forEach((d, idx) => {
     const nodeLabel = getNodeLabel(d, idx);
+    // Offset 10 pixels for each character
     const currentNodeWidth = nodeLabel.length * 10 + NODE_RADIUS;
-    if (currentNodeWidth > depthMaxLabelLengthMapping[d.depth]) {
-      depthMaxLabelLengthMapping[d.depth] = currentNodeWidth;
+    if (currentNodeWidth > depthMaxNodeWidthMapping[d.depth]) {
+      depthMaxNodeWidthMapping[d.depth] = currentNodeWidth;
     }
   });
   return nodes.reduce((acc, n) => {
-    n.y = getNodeWidth(n, depthMaxLabelLengthMapping);
+    n.y = getNodeWidth(n, depthMaxNodeWidthMapping);
     if (n.data.data._parents && n.data.data._parents.length > 1) {
       const parents = nodes.filter((p: TreeLineageNode) =>
         n.data.data._parents.includes(p.data.data.key)
@@ -628,7 +629,7 @@ const lc = (): LineageChart => {
           upstream_entities: compactLineage(
             reflowLineage(lineage.upstream_entities)
           ),
-          downstream_entities: compactLineage(lineage.upstream_entities),
+          downstream_entities: compactLineage(lineage.downstream_entities),
         };
         renderGraph();
       }
