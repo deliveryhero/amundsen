@@ -98,13 +98,7 @@ const getNodeWidth = (n, depthMaxLabelLengthMapping: { number: number }) => {
     )
     .reduce((sum, entries) => sum + entries[1], 0);
   if (y < 0) {
-    if (depth === 1) {
-      return -depthMaxLabelLengthMapping[depth];
-    }
     return -sumOfWidths;
-  }
-  if (depth === 1) {
-    return depthMaxLabelLengthMapping[depth];
   }
   return sumOfWidths;
 };
@@ -289,7 +283,6 @@ export const decompactLineage = (nodes): TreeLineageNode[] => {
       depthMaxLabelLengthMapping[d.depth] = currentNodeWidth;
     }
   });
-  console.log('depthMaxLabelLengthMapping: ', depthMaxLabelLengthMapping);
   return nodes.reduce((acc, n) => {
     n.y = getNodeWidth(n, depthMaxLabelLengthMapping);
     if (n.data.data._parents && n.data.data._parents.length > 1) {
@@ -635,7 +628,7 @@ const lc = (): LineageChart => {
           upstream_entities: compactLineage(
             reflowLineage(lineage.upstream_entities)
           ),
-          downstream_entities: compactLineage(lineage.downstream_entities),
+          downstream_entities: compactLineage(lineage.upstream_entities),
         };
         renderGraph();
       }
