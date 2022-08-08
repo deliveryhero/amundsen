@@ -19,7 +19,7 @@ export const getDimensions = ({ width, height }: DOMRect) => ({
     (width || CHART_DEFAULT_DIMENSIONS.width) -
     (LINEAGE_SCENE_MARGIN.left + LINEAGE_SCENE_MARGIN.right),
   height:
-    (height || CHART_DEFAULT_DIMENSIONS.height) -
+    CHART_DEFAULT_DIMENSIONS.height -
     (LINEAGE_SCENE_MARGIN.top + LINEAGE_SCENE_MARGIN.bottom),
 });
 
