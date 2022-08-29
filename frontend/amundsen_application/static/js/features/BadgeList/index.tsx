@@ -18,6 +18,7 @@ export interface DispatchFromProps {
 
 export interface BadgeListFeatureProps {
   badges: Badge[];
+  hideNonClickableBadges?: boolean;
 }
 
 export const mapDispatchToProps = (dispatch: any) =>
