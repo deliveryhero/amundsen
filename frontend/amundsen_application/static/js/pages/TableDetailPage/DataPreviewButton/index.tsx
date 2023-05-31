@@ -23,7 +23,6 @@ import './styles.scss';
 enum LoadingStatus {
   ERROR = 'error',
   FORBIDDEN = 'forbidden',
-  LOADING = 'loading',
   SUCCESS = 'success',
   UNAUTHORIZED = 'unauthorized',
   UNAVAILABLE = 'unavailable',
@@ -53,8 +52,6 @@ interface DataPreviewButtonState {
 
 export function getStatusFromCode(httpErrorCode: number | null) {
   switch (httpErrorCode) {
-    case null:
-      return LoadingStatus.LOADING;
     case 200:
       // ok
       return LoadingStatus.SUCCESS;
@@ -115,12 +112,8 @@ export class DataPreviewButton extends React.Component<
   renderModalBody() {
     const { previewData, status } = this.props;
 
-    if (status === LoadingStatus.LOADING) {
-      return <PreviewDataTable isLoading={true} />;
-    }
-
     if (status === LoadingStatus.SUCCESS) {
-      return <PreviewDataTable isLoading={false} previewData={previewData} />;
+      return <PreviewDataTable isLoading={previewData ? false : true} previewData={previewData} />;
     }
 
     if (status === LoadingStatus.UNAUTHORIZED) {
@@ -138,28 +131,30 @@ export class DataPreviewButton extends React.Component<
     const { previewData, status } = this.props;
 
     // Based on the state, the preview button will show different things.
-    let buttonText = 'Loading...';
-    let disabled = true;
-    let popoverText = 'The data preview is loading';
+    let buttonText = 'Preview';
+    let disabled = false;
+    let popoverText = '';
 
     // TODO: Setting hardcoded strings that should be customizable/translatable
     switch (status) {
       case LoadingStatus.SUCCESS:
       case LoadingStatus.UNAUTHORIZED:
         buttonText = 'Preview';
-        disabled = false;
         break;
       case LoadingStatus.FORBIDDEN:
         buttonText = 'Preview';
+        disabled = true;
         popoverText =
           previewData.error_text || 'User is forbidden to preview this data';
         break;
       case LoadingStatus.UNAVAILABLE:
         buttonText = 'Preview';
+        disabled = true;
         popoverText = 'This feature has not been configured by your service';
         break;
       case LoadingStatus.ERROR:
         buttonText = 'Preview';
+        disabled = true;
         popoverText =
           previewData.error_text ||
           'An internal server error has occurred, please contact service admin';
