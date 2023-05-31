@@ -16,7 +16,7 @@ const JSONBig = require('json-bigint');
 
 export interface PreviewDataProps {
   isLoading: boolean;
-  previewData: PreviewData;
+  previewData?: PreviewData;
 }
 
 export const PreviewDataLoader = () => (
@@ -61,6 +61,7 @@ export const PreviewDataTable: React.FC<PreviewDataProps> = ({
     return <PreviewDataLoader />;
   }
   if (
+    !previewData ||
     !previewData.columns ||
     !previewData.data ||
     previewData.columns.length === 0 ||

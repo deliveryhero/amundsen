@@ -88,12 +88,12 @@ export class DataPreviewButton extends React.Component<
   componentDidMount() {
     const { tableData, getPreviewData } = this.props;
 
-    getPreviewData({
-      database: tableData.database,
-      schema: tableData.schema,
-      tableName: tableData.name,
-      cluster: tableData.cluster,
-    });
+    // getPreviewData({
+    //   database: tableData.database,
+    //   schema: tableData.schema,
+    //   tableName: tableData.name,
+    //   cluster: tableData.cluster,
+    // });
   }
 
   handleClose = () => {
@@ -101,12 +101,23 @@ export class DataPreviewButton extends React.Component<
   };
 
   handleClick = (e) => {
+    const { tableData, getPreviewData } = this.props;
     logClick(e);
+    getPreviewData({
+      database: tableData.database,
+      schema: tableData.schema,
+      tableName: tableData.name,
+      cluster: tableData.cluster,
+    });
     this.setState({ showModal: true });
   };
 
   renderModalBody() {
     const { previewData, status } = this.props;
+
+    if (status === LoadingStatus.LOADING) {
+      return <PreviewDataTable isLoading={true} />;
+    }
 
     if (status === LoadingStatus.SUCCESS) {
       return <PreviewDataTable isLoading={false} previewData={previewData} />;
