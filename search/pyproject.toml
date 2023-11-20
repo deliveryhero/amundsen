@@ -1,0 +1,45 @@
+# pyproject.toml
+
+[package]
+include = ["search_service"]
+exclude = ["tests"]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "amundsen-search"
+version = "4.1.4"
+description = "Search Service for Amundsen"
+url = "https://github.com/amundsen-io/amundsen/tree/main/search"
+maintainer = "Amundsen TSC"
+maintainer_email = "amundsen-tsc@lists.lfai.foundation"
+
+#TODO: add the dynamic dependencies
+
+dependencies = [
+    'python = >=3.7',
+    'elasticsearch==7.13.3',
+    'elasticsearch-dsl==7.4.0'
+]
+
+[project.optional-dependencies]
+dev = [
+    'flake8>=3.9.2',
+    'flake8-tidy-imports>=4.3.0',
+    'isort[colors]~=5.8.0',
+    'mock>=4.0.3',
+    'mypy>=0.812,<0.900',
+    'pytest>=6.2.4',
+    'pytest-cov>=2.12.0',
+    'pytest-env>=0.6.2',
+    'pytest-mock>=3.6.1',
+    'typed-ast>=1.4.3',
+    'pyspark==3.0.1'
+]
+
+oidc = ['flaskoidc>=1.0.0']
+
+[tool.setuptools]
+include-package-data = true
