@@ -1,11 +1,11 @@
 # Copyright Contributors to the Amundsen project.
 # SPDX-License-Identifier: Apache-2.0
 
-# import os
+import os
 
-# from setuptools import setup
+from setuptools import setup
 
-# setup()
+setup()
 
 # __version__ = '4.1.4'
 
