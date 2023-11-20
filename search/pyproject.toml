@@ -5,7 +5,7 @@ include = ["search_service"]
 exclude = ["tests"]
 
 [build-system]
-requires = ["setuptools >= 43.0.0"]
+requires = ["setuptools >= 60.1.10"]
 build-backend = "setuptools.build_meta"
 
 [project]
