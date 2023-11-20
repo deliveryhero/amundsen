@@ -5,21 +5,21 @@ include = ["search_service"]
 exclude = ["tests"]
 
 [build-system]
-requires = ["setuptools >= 60.1.10"]
+requires = ["setuptools >= 60.1.10", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "amundsen-search"
 version = "4.1.4"
 description = "Search Service for Amundsen"
-url = "https://github.com/amundsen-io/amundsen/tree/main/search"
-maintainer = "Amundsen TSC"
-maintainer_email = "amundsen-tsc@lists.lfai.foundation"
+
+# FIXME: url, maintainers, and maintainers_email
+# #url = "https://github.com/amundsen-io/amundsen/tree/main/search"
+# maintainer = "Amundsen TSC"
+# maintainer_email = "amundsen-tsc@lists.lfai.foundation"
 
 #TODO: add the dynamic dependencies
-
 dependencies = [
-    'python = >=3.7',
     'elasticsearch==7.13.3',
     'elasticsearch-dsl==7.4.0'
 ]
