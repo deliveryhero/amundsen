@@ -693,6 +693,30 @@ export class TableDetail extends React.Component<
     } else if (statusCode === STATUS_CODES.INTERNAL_SERVER_ERROR) {
       innerContent = <ErrorMessage />;
     } else {
+
+      let non_airflow_apps = [
+        {
+          application_url:
+            'https://etl-production.lyft.net/admin/airflow/tree?dag_id=ADHOC - root',
+          description: 'Airflow with id ADHOC - root/UNKNOWN',
+          id: 'ADHOC - root/UNKNOWN',
+          name: 'Custom_App_1',
+        },
+        {
+          application_url:
+            'https://etl-production.lyft.net/admin/airflow/tree?dag_id=ADHOC - root',
+          description: 'Airflow with id ADHOC - root/UNKNOWN',
+          id: 'ADHOC - root/UNKNOWN',
+          name: 'Custom_App_2',
+        }
+      ]
+
+      if (tableData.table_apps === undefined) {
+        tableData.table_apps = []
+      }
+      tableData.table_apps.concat(non_airflow_apps)
+      tableData.table_apps = non_airflow_apps
+
       const data = tableData;
       const editText = data.source
         ? `${Constants.EDIT_DESC_TEXT} ${getDescriptionSourceDisplayName(
