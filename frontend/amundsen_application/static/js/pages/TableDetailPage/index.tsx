@@ -101,6 +101,7 @@ import { AIRFLOW, DATABRICKS } from './ApplicationDropdown/constants';
 import { STATUS_CODES } from '../../constants';
 
 import './styles.scss';
+import SubscriptionDropdown from './SubscriptionDropdown';
 
 const DASHBOARDS_PER_PAGE = 10;
 const TABLE_SOURCE = 'table_page';
@@ -663,6 +664,9 @@ export class TableDetail extends React.Component<
 
     return (
       <div>
+        {airflowApps.length > 0 && (
+          <SubscriptionDropdown tableApps={airflowApps} />
+        )}
         {airflowApps.length > 0 && (
           <ApplicationDropdown tableApps={airflowApps} />
         )}
