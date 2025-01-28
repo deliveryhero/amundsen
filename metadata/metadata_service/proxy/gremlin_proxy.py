@@ -281,7 +281,7 @@ def _safe_get_list(root, *keys, transform: Optional[Callable] = None):
         raise RuntimeError(f'{values} is not a List!  root={root} keys={keys}')
     elif transform is None:
         return sorted(values)
-    elif len(values) > 0 and type(values[0]) == datetime and transform == int:
+    elif len(values) > 0 and type(values[0]) is datetime and transform == int:
         # need to do something special for datetimes we are transforming into int's
         return sorted([transform(value.timestamp()) for value in values])
     else:
@@ -1019,6 +1019,7 @@ class AbstractGremlinProxy(BaseProxy):
         user.manager_fullname = _safe_get(managers[0], 'full_name', default=None) if managers else None
         return user
 
+    @no_type_check
     def create_update_user(self, *, user: User) -> Tuple[User, bool]:
         pass
 
@@ -1471,6 +1472,7 @@ class AbstractGremlinProxy(BaseProxy):
                      key=AMUNDSEN_TIMESTAMP_KEY).values('latest_timestamp').toList()
         return _safe_get(results, transform=int)
 
+    @no_type_check
     def get_statistics(self) -> Dict[str, Any]:
         # Not implemented
         pass
@@ -1490,6 +1492,7 @@ class AbstractGremlinProxy(BaseProxy):
         counts = self.query_executor()(query=g, get=FromResultSet.getOnly)
         return [TagDetail(tag_name=name, tag_count=value) for name, value in counts.items()]
 
+    @no_type_check
     def get_badges(self) -> List:
         pass
 
@@ -1553,6 +1556,7 @@ class AbstractGremlinProxy(BaseProxy):
         # this is weird but the convention
         return {'table': popular_tables}
 
+    @no_type_check
     @timer_with_counter
     @overrides
     def get_dashboard_by_user_relation(self, *, user_email: str, relation_type: UserResourceRel) \
@@ -1560,6 +1564,7 @@ class AbstractGremlinProxy(BaseProxy):
         pass
 
     # TODO: impl
+    @no_type_check
     @timer_with_counter
     @overrides
     def get_frequently_used_tables(self, *, user_email: str) -> Dict[str, Any]:
@@ -1695,11 +1700,11 @@ class AbstractGremlinProxy(BaseProxy):
         dashboard_tables = self.query_executor()(query=dashboard_tables_query, get=FromResultSet.toList)
         tables = []
         for table in dashboard_tables:
-            tabe_base = table.get('key').split("://")[1]
+            table_base = table.get('key').split("://")[1]
             table_db = table.get('key').split("://")[0]
-            table_cluster = tabe_base.split(".")[0]
+            table_cluster = table_base.split(".")[0]
             table_name = table.get('name')
-            table_schema = tabe_base.split("/")[0]
+            table_schema = table_base.split("/")[0]
             table_desc_vertex_q = self.g.V(table[T.id]).out("DESCRIPTION")
             table_desc_vertex_q = table_desc_vertex_q.filter(__.hasLabel("Description")).valueMap().by(__.unfold())
             table_desc_vertex = self.query_executor()(query=table_desc_vertex_q, get=FromResultSet.toList)
@@ -1816,6 +1821,7 @@ class AbstractGremlinProxy(BaseProxy):
                                      tables=tables
                                      )
 
+    @no_type_check
     @timer_with_counter
     @overrides
     def get_dashboard_description(self, *,
@@ -1834,10 +1840,40 @@ class AbstractGremlinProxy(BaseProxy):
     def get_resources_using_table(self, *,
                                   id: str,
                                   resource_type: ResourceType) -> Dict[str, List[DashboardSummary]]:
-        pass
+        """
+        Retrieves the dashboards that are using a specific table, in the form of DashboardSummary objects.
+
+        :param id: The unique identifier of the table.
+        :param resource_type: The type of the resource. Only ResourceType.Dashboard is supported.
+        :return: A dictionary with a single key 'dashboards' that maps to a list of DashboardSummary objects.
+                Each DashboardSummary object represents a dashboard that uses the table.
+        :raises NotImplementedError: If the resource_type is not ResourceType.Dashboard.
+        """
+        if resource_type != ResourceType.Dashboard:
+            raise NotImplementedError(f'{resource_type} is not supported')
+
+        resources_using_table_query = self.g.V().hasLabel('Table').has('key', id).both('TABLE_OF_DASHBOARD')
+        resources_using_table_query = resources_using_table_query.valueMap(True).by(__.unfold())
+        dashboards_list = self.query_executor()(query=resources_using_table_query, get=FromResultSet.toList)
+        results = []
+        for dashboard in dashboards_list:
+            entry = {
+                'uri': dashboard['key'],
+                'cluster': dashboard['name'],
+                'group_name': dashboard['name'],
+                'group_url': dashboard['dashboard_group_url'],
+                'product': dashboard['key'].split('_')[0],
+                'name': dashboard['name'],
+                'url': dashboard['dashboard_url'],
+                'last_successful_run_timestamp': dashboard['last_extracted_datetime'].timestamp()
+            }
+            results.append(DashboardSummary(**entry))
+
+        return {'dashboards': results}
 
     def _get_user_table_relationship_clause(self, *, g: Traversal, relation_type: UserResourceRel,
-                                            table_uri: str = None, user_key: str = None) -> GraphTraversal:
+                                            table_uri: Optional[str] = None,
+                                            user_key: Optional[str] = None) -> GraphTraversal:
         """
         Returns the relationship traversal for get_table_by_user_relation et al.
         """
@@ -2041,14 +2077,14 @@ class AbstractGremlinProxy(BaseProxy):
                                                                          downstream_tables=downstream_tables,
                                                                          path=path)
 
-        return Lineage(**{"key": id,
-                          "upstream_entities": upstream_tables,
-                          "downstream_entities": downstream_tables,
-                          "direction": direction, "depth": depth})
+        return Lineage(key=id, upstream_entities=upstream_tables, downstream_entities=downstream_tables,
+                       direction=direction, depth=depth)
 
+    @no_type_check
     def get_feature(self, *, feature_uri: str) -> Feature:
         pass
 
+    @no_type_check
     def get_resource_description(self, *,
                                  resource_type: ResourceType,
                                  uri: str) -> Description:
@@ -2072,6 +2108,7 @@ class AbstractGremlinProxy(BaseProxy):
                               owner: str) -> None:
         pass
 
+    @no_type_check
     def get_resource_generation_code(self, *,
                                      uri: str,
                                      resource_type: ResourceType) -> GenerationCode:

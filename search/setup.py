@@ -5,7 +5,7 @@ import os
 
 from setuptools import find_packages, setup
 
-__version__ = '4.1.4'
+__version__ = '4.2.0'
 
 oidc = ['flaskoidc>=1.0.0']
 
@@ -30,6 +30,7 @@ setup(
     url='https://github.com/amundsen-io/amundsen/tree/main/search',
     maintainer='Amundsen TSC',
     maintainer_email='amundsen-tsc@lists.lfai.foundation',
+    license="Apache 2.0",
     packages=find_packages(exclude=['tests*']),
     include_package_data=True,
     zip_safe=False,
@@ -40,5 +41,11 @@ setup(
         'dev': requirements_dev,
         'oidc': oidc
     },
-    python_requires=">=3.7"
+    python_requires=">=3.8",
+    classifiers=[
+        'License :: OSI Approved :: Apache Software License',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+    ],
 )

@@ -62,7 +62,7 @@ We want your input about what is important, for that, add your votes using the �
 * [Top Questions](https://github.com/amundsen-io/amundsen/issues?q=is%3Aissue+is%3Aclosed+sort%3Areactions-%2B1-desc+label%3Atype%3Aquestion+label%3Astatus%3Aneeds_votes)
 
 ## Requirements
-- Python 3.7
+- Python >= 3.8
 - Node v12
 
 ## User Interface
@@ -212,6 +212,7 @@ Please visit [Architecture](https://www.amundsen.io/amundsen/architecture/) for 
 - [Building a data discovery solution with Amundsen and Amazon Neptune](https://aws.amazon.com/blogs/database/building-a-data-discovery-solution-with-amundsen-and-amazon-neptune/)
 - [Amundsen — Installing in an Istio-enabled environment](https://medium.com/@owenleung_89035/amundsen-installing-in-an-istio-enabled-environment-d0b9bdaeac49)
 - [Amundsen — Integrate with Okta SingleSignOn](https://medium.com/@owenleung_89035/amundsen-integrate-with-okta-singlesignon-20ad0a22d3d9)
+- [Data Engineering Skills](https://www.scaler.com/blog/data-engineer-skills/)
 
 ### Community meetings
 

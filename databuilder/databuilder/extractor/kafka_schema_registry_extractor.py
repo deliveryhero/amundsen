@@ -58,6 +58,8 @@ class KafkaSchemaRegistryExtractor(Extractor):
     def extract(self) -> Union[TableMetadata, None]:
         if not self._extract_iter:
             self._extract_iter = self._get_extract_iter()
+        if self._extract_iter is None:
+            return None
         try:
             return next(self._extract_iter)
         except StopIteration:
@@ -69,7 +71,7 @@ class KafkaSchemaRegistryExtractor(Extractor):
     def get_scope(self) -> str:
         return 'extractor.kafka_schema_registry'
 
-    def _get_extract_iter(self) -> Optional[Iterator[TableMetadata]]:
+    def _get_extract_iter(self) -> Optional[Iterator[TableMetadata]]:  # type: ignore
         """
         Return an iterator generating TableMetadata for all of the schemas.
         """

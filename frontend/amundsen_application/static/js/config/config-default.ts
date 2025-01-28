@@ -125,6 +125,9 @@ const configDefault: AppConfig = {
     maxNestedColumns: 500,
   },
   numberFormat: null,
+  ownersSection: {
+    categories: [],
+  },
   productTour: {},
   resourceConfig: {
     [ResourceType.dashboard]: {
@@ -183,6 +186,10 @@ const configDefault: AppConfig = {
         tableau: {
           displayName: 'Tableau',
           iconClass: 'icon-tableau',
+        },
+        powerbi: {
+          displayName: 'PowerBi',
+          iconClass: 'icon-powerbi',
         },
       },
     },

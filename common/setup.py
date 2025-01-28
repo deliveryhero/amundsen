@@ -4,7 +4,7 @@ import os
 
 from setuptools import find_packages, setup
 
-__version__ = '0.31.0'
+__version__ = '0.32.0'
 
 
 requirements_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'requirements-dev.txt')
@@ -21,6 +21,7 @@ setup(
     url='https://github.com/amundsen-io/amundsen/tree/main/common',
     maintainer='Amundsen TSC',
     maintainer_email='amundsen-tsc@lists.lfai.foundation',
+    license="Apache 2.0",
     packages=find_packages(exclude=['tests*']),
     install_requires=[
         # Packages in here should rarely be pinned. This is because these
@@ -38,7 +39,7 @@ setup(
         # This will allow for any consuming projects to use this library as
         # long as they have a version of pyfoobar equal to or greater than 1.x
         # and less than 2.x installed.
-        'Flask>=1.0.2',
+        'Flask>=2.2.5',
         'attrs>=19.0.0',
         'marshmallow>=3.0',
         'marshmallow3-annotations>=1.1.0'
@@ -46,6 +47,12 @@ setup(
     extras_require={
         'all': requirements_dev
     },
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     package_data={'amundsen_common': ['py.typed']},
+    classifiers=[
+        'License :: OSI Approved :: Apache Software License',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+    ],
 )
